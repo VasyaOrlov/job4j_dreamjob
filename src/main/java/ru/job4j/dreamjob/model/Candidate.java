@@ -1,19 +1,19 @@
 package ru.job4j.dreamjob.model;
 
-import java.text.SimpleDateFormat;
-import java.util.GregorianCalendar;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Candidate {
     private int id;
     private String name;
-    private String created;
+    private final LocalDateTime created;
     private String description;
 
-    public Candidate(int id, String name, GregorianCalendar created, String description) {
+    public Candidate(int id, String name, LocalDateTime created, String description) {
         this.id = id;
         this.name = name;
-        this.created = new SimpleDateFormat("yyyy-MM-dd  HH:mm").format(created.getTime());
+        this.created = created;
         this.description = description;
     }
 
@@ -34,11 +34,7 @@ public class Candidate {
     }
 
     public String getCreated() {
-        return created;
-    }
-
-    public void setCreated(String created) {
-        this.created = created;
+        return created.format(DateTimeFormatter.ofPattern("yyyy-MM-dd  HH-mm"));
     }
 
     public String getDescription() {

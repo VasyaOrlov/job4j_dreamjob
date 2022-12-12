@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import ru.job4j.dreamjob.model.Candidate;
 import ru.job4j.dreamjob.store.CandidateStore;
 
+import java.time.LocalDateTime;
 import java.util.GregorianCalendar;
 
 @Controller
@@ -22,7 +23,7 @@ public class CandidateController {
     @GetMapping("/fromAddCandidate")
     public String addCandidate(Model model) {
         model.addAttribute("candidate", new Candidate(0, "Ввести имя",
-                new GregorianCalendar(), "Ввести описание"));
+                LocalDateTime.now(), "Ввести описание"));
         return "addCandidate";
     }
 }
