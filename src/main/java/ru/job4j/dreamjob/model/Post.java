@@ -1,8 +1,7 @@
 package ru.job4j.dreamjob.model;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Post {
@@ -11,7 +10,7 @@ public class Post {
 
     private String description;
 
-    private String created;
+    private LocalDateTime created;
 
     public Post() {
     }
@@ -19,7 +18,7 @@ public class Post {
     public Post(int id, String name, String description) {
         this.id = id;
         this.name = name;
-        created = new SimpleDateFormat("yyyy-MM-dd  HH:mm").format(new GregorianCalendar().getTime());
+        created = LocalDateTime.now();
         this.description = description;
     }
 
@@ -48,7 +47,7 @@ public class Post {
     }
 
     public String getCreated() {
-        return created;
+        return created.format(DateTimeFormatter.ofPattern("yyyy-MM-dd  HH-mm"));
     }
 
     @Override
