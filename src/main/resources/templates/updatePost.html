@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <!-- Required meta tags -->
@@ -14,8 +14,8 @@
             integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Работа мечты!</title>
+
+    <title>Работа мечты</title>
 </head>
 <body>
 <div class="container">
@@ -27,37 +27,36 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
                 <a class="nav-item nav-link" th:href="@{/index}">Главная</a>
-                <a class="nav-item nav-link active" href="#">Вакансии <span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link" th:href="@{/formAddPost}">Добавить вакансию</a>
+                <a class="nav-item nav-link" th:href="@{/posts}">Вакансии </a>
+                <a class="nav-item nav-link active" href="#">Добавить вакансию <span class="sr-only">(current)</span></a>
                 <a class="nav-item nav-link" th:href="@{/candidates}">Кандидаты</a>
                 <a class="nav-item nav-link" th:href="@{/fromAddCandidate}">Добавить вакансию</a>
             </div>
         </div>
     </nav>
     <div class="row">
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Имя</th>
-                <th scope="col">Дата создания</th>
-                <th scope="col">Описание</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="post: ${posts}">
-                <th th:text="${post.id}"></th>
-                <td>
-                    <a th:href="@{|/formUpdatePost/${post.id}|}">
-                        <i class="fa fa-edit"></i>
-                    </a>
-                    <span th:text="${post.name}"></span>
-                </td>
-                <td th:text="${post.created}"></td>
-                <td th:text="${post.description}"></td>
-            </tr>
-            </tbody>
-        </table>
+        <div class="card" style="width: 100%">
+            <div class="card-header">
+                Новая вакансия.
+            </div>
+            <div class="card-body">
+                <form th:action="@{/updatePost}" method="POST" th:object="${post}">
+                    <input type="hidden" name="id" th:field="*{id}"/>
+                    <div class="form-group">
+                        <label>Название
+                            <input type="text" class="form-control" name="name" th:field="*{name}">
+                        </label>
+                    </div>
+                    <p>
+                    <div class="form-group">
+                        <label>Описание
+                            <input type="text" class="form-control" name="description" th:field="*{description}">
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 </body>

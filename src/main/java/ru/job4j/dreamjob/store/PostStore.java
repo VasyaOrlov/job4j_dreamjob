@@ -34,4 +34,12 @@ public class PostStore {
     public Collection<Post> findAll() {
         return posts.values();
     }
+
+    public Post findById(int id) {
+        return posts.get(id);
+    }
+
+    public boolean update(Post post) {
+        return posts.replace(post.getId(), posts.get(post.getId()), post);
+    }
 }
