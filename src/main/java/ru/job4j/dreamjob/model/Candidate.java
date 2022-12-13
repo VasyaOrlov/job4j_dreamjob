@@ -33,8 +33,8 @@ public class Candidate {
         this.name = name;
     }
 
-    public String getCreated() {
-        return created.format(DateTimeFormatter.ofPattern("yyyy-MM-dd  HH-mm"));
+    public LocalDateTime getCreated() {
+        return created;
     }
 
     public String getDescription() {
