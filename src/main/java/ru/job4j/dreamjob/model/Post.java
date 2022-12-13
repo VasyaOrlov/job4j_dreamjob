@@ -43,8 +43,8 @@ public class Post {
         this.description = description;
     }
 
-    public String getCreated() {
-        return created.format(DateTimeFormatter.ofPattern("yyyy-MM-dd  HH-mm"));
+    public LocalDateTime getCreated() {
+        return created;
     }
 
     @Override
