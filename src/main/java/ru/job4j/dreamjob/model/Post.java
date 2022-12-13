@@ -10,15 +10,12 @@ public class Post {
 
     private String description;
 
-    private LocalDateTime created;
-
-    public Post() {
-    }
+    private final LocalDateTime created;
 
     public Post(int id, String name, String description) {
         this.id = id;
         this.name = name;
-        created = LocalDateTime.now();
+        this.created = LocalDateTime.now();
         this.description = description;
     }
 
