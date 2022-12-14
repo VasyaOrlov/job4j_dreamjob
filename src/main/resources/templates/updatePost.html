@@ -30,7 +30,7 @@
                 <a class="nav-item nav-link" th:href="@{/posts}">Вакансии </a>
                 <a class="nav-item nav-link active" href="#">Добавить вакансию <span class="sr-only">(current)</span></a>
                 <a class="nav-item nav-link" th:href="@{/candidates}">Кандидаты</a>
-                <a class="nav-item nav-link" th:href="@{/fromAddCandidate}">Добавить вакансию</a>
+                <a class="nav-item nav-link" th:href="@{/fromAddCandidate}">Добавить кандидата</a>
             </div>
         </div>
     </nav>
@@ -42,16 +42,26 @@
             <div class="card-body">
                 <form th:action="@{/updatePost}" method="POST" th:object="${post}">
                     <input type="hidden" name="id" th:field="*{id}"/>
-                    <div class="form-group">
-                        <label>Название
-                            <input type="text" class="form-control" name="name" th:field="*{name}">
-                        </label>
-                    </div>
+                        <div class="form-group">
+                            <label>Название
+                                <input type="text" class="form-control" name="name" th:field="*{name}">
+                            </label>
+                        </div>
                     <p>
+                        <div class="form-group">
+                            <label>Описание
+                                <input type="text" class="form-control" name="description" th:field="*{description}">
+                            </label>
+                        </div>
                     <div class="form-group">
-                        <label>Описание
-                            <input type="text" class="form-control" name="description" th:field="*{description}">
-                        </label>
+                        <label for="city.id">Город</label>
+                        <select class="form-control" id="city.id" name="city.id">
+                            <option th:each="city : ${cities}" th:value="${city.id}" th:text="${city.name}"></option>
+                        </select>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" name="visible" class="form-check-input" id="visible">
+                        <label class="form-check-label" for="visible">Опубликовать</label>
                     </div>
                     <button type="submit" class="btn btn-primary">Сохранить</button>
                 </form>

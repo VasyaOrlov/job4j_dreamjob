@@ -1,9 +1,9 @@
 package ru.job4j.dreamjob.store;
 
-import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Repository;
 import ru.job4j.dreamjob.model.Candidate;
+import ru.job4j.dreamjob.model.City;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -19,9 +19,12 @@ public class CandidateStore {
     private final AtomicInteger size = new AtomicInteger(3);
 
     private CandidateStore() {
-        candidates.put(1, new Candidate(1, "Dima", LocalDateTime.now(), "junior"));
-        candidates.put(2, new Candidate(2, "Sasha", LocalDateTime.now(), "middle"));
-        candidates.put(3, new Candidate(3, "Dasha", LocalDateTime.now(), "senior"));
+        candidates.put(1, new Candidate(1, "Dima", LocalDateTime.now(), "junior",
+                new City(1, "Москва")));
+        candidates.put(2, new Candidate(2, "Sasha", LocalDateTime.now(), "middle",
+                new City(1, "Москва")));
+        candidates.put(3, new Candidate(3, "Dasha", LocalDateTime.now(), "senior",
+                new City(1, "Москва")));
     }
 
     public Collection<Candidate> findAll() {
