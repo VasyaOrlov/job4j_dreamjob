@@ -8,8 +8,8 @@ public class Candidate {
     private String name;
     private LocalDateTime created;
     private String description;
-
     private City city;
+    private byte[] photo;
 
     public Candidate(int id, String name, LocalDateTime created, String description, City city) {
         this.id = id;
@@ -57,6 +57,14 @@ public class Candidate {
 
     public void setCity(City city) {
         this.city = city;
+    }
+
+    public byte[] getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
     }
 
     @Override
