@@ -1,7 +1,6 @@
 package ru.job4j.dreamjob.model;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Post {
@@ -10,16 +9,14 @@ public class Post {
 
     private String description;
 
-    private final LocalDateTime created;
+    private final LocalDateTime created = LocalDateTime.now();
 
     public Post() {
-        this.created = LocalDateTime.now();
     }
 
     public Post(int id, String name, String description) {
         this.id = id;
         this.name = name;
-        this.created = LocalDateTime.now();
         this.description = description;
     }
 
