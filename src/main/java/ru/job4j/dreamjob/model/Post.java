@@ -11,6 +11,8 @@ public class Post {
 
     private final LocalDateTime created = LocalDateTime.now();
 
+    private boolean visible;
+
     public Post() {
     }
 
@@ -46,6 +48,14 @@ public class Post {
 
     public LocalDateTime getCreated() {
         return created;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 
     @Override
