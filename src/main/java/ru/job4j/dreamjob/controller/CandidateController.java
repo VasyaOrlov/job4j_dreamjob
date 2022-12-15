@@ -49,8 +49,8 @@ public class CandidateController {
     public String createCandidate(@ModelAttribute Candidate candidate,
                                   @RequestParam("file") MultipartFile file) throws IOException {
         candidate.setPhoto(file.getBytes());
-        candidateService.add(candidate);
         candidate.setCity(cityService.findById(candidate.getCity().getId()));
+        candidateService.add(candidate);
         return "redirect:/candidates";
     }
 
