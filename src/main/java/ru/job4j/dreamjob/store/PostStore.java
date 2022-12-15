@@ -19,11 +19,11 @@ public class PostStore {
     private final AtomicInteger size = new AtomicInteger(3);
 
     private PostStore() {
-        posts.put(1, new Post(1, "Junior Java Job", "little interesting",
+        posts.put(1, new Post(1, "Junior Java Job", "little interesting", true,
                 new City(1, "Москва")));
-        posts.put(2, new Post(2, "Middle Java Job", "interesting",
+        posts.put(2, new Post(2, "Middle Java Job", "interesting", true,
                 new City(1, "Москва")));
-        posts.put(3, new Post(3, "Senior Java Job", "very interesting",
+        posts.put(3, new Post(3, "Senior Java Job", "very interesting", true,
                 new City(1, "Москва")));
     }
 

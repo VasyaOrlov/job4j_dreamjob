@@ -10,7 +10,7 @@ public class Post implements Serializable {
 
     private String description;
 
-    private final LocalDateTime created = LocalDateTime.now();
+    private LocalDateTime created = LocalDateTime.now();
 
     private boolean visible;
 
@@ -19,10 +19,11 @@ public class Post implements Serializable {
     public Post() {
     }
 
-    public Post(int id, String name, String description, City city) {
+    public Post(int id, String name, String description, boolean visible, City city) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.visible = visible;
         this.city = city;
     }
 
@@ -52,6 +53,10 @@ public class Post implements Serializable {
 
     public LocalDateTime getCreated() {
         return created;
+    }
+
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
     }
 
     public boolean isVisible() {
