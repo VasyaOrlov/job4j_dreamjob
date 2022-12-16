@@ -21,9 +21,7 @@ public class PostService {
     }
 
     public Collection<Post> findAll() {
-        Collection<Post> rsl = store.findAll();
-        rsl.forEach(post -> post.setCity(cityService.findById(post.getId())));
-        return rsl;
+        return store.findAll();
     }
 
     public void add(Post post) {
