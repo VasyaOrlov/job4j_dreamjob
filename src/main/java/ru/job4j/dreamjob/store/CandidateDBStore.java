@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.dreamjob.model.Candidate;
+import ru.job4j.dreamjob.model.City;
 import ru.job4j.dreamjob.service.CityService;
 
 import java.sql.*;
@@ -19,16 +20,23 @@ import java.util.List;
 @ThreadSafe
 public class CandidateDBStore {
 
+    private static final String FIND_ALL = "select * from candidate";
+    private static final String ADD = "insert into candidate(name, created, "
+            + "description, city_id, photo) values (?, ?, ?, ?, ?)";
+    private static final String FIND_BY_ID = "select * from candidate where id = ?";
+    private static final String UPDATE = "update candidate set name = ?, "
+            + "created = ?, description = ?, city_id = ?, photo = ?";
     private static final Logger LOG = LoggerFactory.getLogger(CandidateDBStore.class.getName());
     private final BasicDataSource pool;
 
     public CandidateDBStore(BasicDataSource pool) {
         this.pool = pool;
     }
+
     public Collection<Candidate> findAll() {
         List<Candidate> candidates = new ArrayList<>();
         try (Connection cn = pool.getConnection();
-            PreparedStatement ps = cn.prepareStatement("select * from candidate")) {
+            PreparedStatement ps = cn.prepareStatement(FIND_ALL)) {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
                     candidates.add(createCandidate(it));
@@ -42,8 +50,7 @@ public class CandidateDBStore {
 
     public void add(Candidate candidate) {
         try (Connection cn = pool.getConnection();
-        PreparedStatement ps = cn.prepareStatement("insert into candidate(name, created, "
-                + "description, city_id, photo) values (?, ?, ?, ?, ?)", PreparedStatement.RETURN_GENERATED_KEYS)) {
+        PreparedStatement ps = cn.prepareStatement(ADD, PreparedStatement.RETURN_GENERATED_KEYS)) {
             setStatement(ps, candidate);
             ps.execute();
             try (ResultSet id = ps.getGeneratedKeys()) {
@@ -59,7 +66,7 @@ public class CandidateDBStore {
     public Candidate findById(int id) {
         Candidate candidate = new Candidate();
         try (Connection cn = pool.getConnection();
-        PreparedStatement ps = cn.prepareStatement("select * from candidate where id = ?")) {
+        PreparedStatement ps = cn.prepareStatement(FIND_BY_ID)) {
             ps.setInt(1, id);
             try (ResultSet it = ps.executeQuery()) {
                 if (it.next()) {
@@ -75,8 +82,7 @@ public class CandidateDBStore {
     public boolean update(Candidate candidate) {
         boolean rsl = false;
         try (Connection cn = pool.getConnection();
-        PreparedStatement ps = cn.prepareStatement("update candidate set name = ?, "
-                + "created = ?, description = ?, city_id = ?, photo = ?")) {
+        PreparedStatement ps = cn.prepareStatement(UPDATE)) {
             setStatement(ps, candidate);
             rsl = ps.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -90,7 +96,7 @@ public class CandidateDBStore {
                 it.getString("name"),
                 it.getTimestamp("created").toLocalDateTime(),
                 it.getString("description"),
-                new CityService().findById(it.getInt("city_id")));
+                new City(it.getInt("city_id"), ""));
         candidate.setPhoto(it.getBytes("photo"));
         return candidate;
     }

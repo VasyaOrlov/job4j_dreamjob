@@ -20,7 +20,9 @@ public class CandidateService {
     }
 
     public Collection<Candidate> findAll() {
-        return candidateStore.findAll();
+        Collection<Candidate> rsl = candidateStore.findAll();
+        rsl.forEach(candidate -> candidate.setCity(cityService.findById(candidate.getId())));
+        return rsl;
     }
 
     public void add(Candidate candidate) {
