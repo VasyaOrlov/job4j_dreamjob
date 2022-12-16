@@ -19,6 +19,9 @@ public class Candidate {
         this.city = city;
     }
 
+    public Candidate() {
+    }
+
     public int getId() {
         return id;
     }
