@@ -25,7 +25,7 @@ public class CandidateDBStore {
             + "description, city_id, photo) values (?, ?, ?, ?, ?)";
     private static final String FIND_BY_ID = "select * from candidate where id = ?";
     private static final String UPDATE = "update candidate set name = ?, "
-            + "created = ?, description = ?, city_id = ?, photo = ?";
+            + "created = ?, description = ?, city_id = ?, photo = ? where id = ?";
     private static final Logger LOG = LoggerFactory.getLogger(CandidateDBStore.class.getName());
     private final BasicDataSource pool;
 
@@ -84,6 +84,7 @@ public class CandidateDBStore {
         try (Connection cn = pool.getConnection();
         PreparedStatement ps = cn.prepareStatement(UPDATE)) {
             setStatement(ps, candidate);
+            ps.setInt(6, candidate.getId());
             rsl = ps.executeUpdate() > 0;
         } catch (SQLException e) {
             LOG.error("Failed connection when update:", e);

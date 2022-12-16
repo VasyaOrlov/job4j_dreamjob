@@ -22,7 +22,7 @@ public class PostDBStore {
     private static final String ADD = "INSERT INTO post(name, description, created, "
             + "visible, city_id) VALUES (?, ?, ?, ?, ?)";
     private static final String UPDATE = "UPDATE post SET name = ?, description = ?, "
-            + "created = ?, visible = ?, city_id = ?";
+            + "created = ?, visible = ?, city_id = ?  where id = ?";
     private static final String FIND_BY_ID = "SELECT * FROM post WHERE id = ?";
     private static final Logger LOG = LoggerFactory.getLogger(PostDBStore.class.getName());
     private final BasicDataSource pool;
@@ -69,6 +69,7 @@ public class PostDBStore {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement(UPDATE)) {
             setStatement(ps, post);
+            ps.setInt(6, post.getId());
             rsl = ps.executeUpdate() > 0;
         } catch (SQLException e) {
             LOG.error("Failed connection when update:", e);
