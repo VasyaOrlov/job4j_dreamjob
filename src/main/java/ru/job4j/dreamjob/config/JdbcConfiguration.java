@@ -1,12 +1,15 @@
 package ru.job4j.dreamjob.config;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import ru.job4j.dreamjob.Main;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Properties;
 
+@Configuration
 public class JdbcConfiguration {
     private Properties loadDbProperties() {
         Properties cfg = new Properties();
@@ -28,7 +31,8 @@ public class JdbcConfiguration {
         return cfg;
     }
 
-    public BasicDataSource unit() {
+    @Bean
+    public BasicDataSource loadPool() {
         Properties cfg = loadDbProperties();
         BasicDataSource pool = new BasicDataSource();
         pool.setDriverClassName(cfg.getProperty("jdbc.driver"));
