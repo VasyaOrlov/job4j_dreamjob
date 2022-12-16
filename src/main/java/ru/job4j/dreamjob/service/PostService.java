@@ -22,7 +22,7 @@ public class PostService {
 
     public Collection<Post> findAll() {
         Collection<Post> rsl = store.findAll();
-        rsl.forEach(post -> post.setCity(cityService.findById(post.getId())));
+        rsl.forEach(post -> post.setCity(cityService.findById(post.getCity().getId())));
         return rsl;
     }
 
