@@ -21,7 +21,7 @@ public class CandidateService {
 
     public Collection<Candidate> findAll() {
         Collection<Candidate> rsl = candidateStore.findAll();
-        rsl.forEach(candidate -> candidate.setCity(cityService.findById(candidate.getId())));
+        rsl.forEach(candidate -> candidate.setCity(cityService.findById(candidate.getCity().getId())));
         return rsl;
     }
 
