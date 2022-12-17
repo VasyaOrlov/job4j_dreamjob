@@ -3,10 +3,9 @@ package ru.job4j.dreamjob.store;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import ru.job4j.dreamjob.Main;
+import ru.job4j.dreamjob.config.JdbcConfiguration;
 import ru.job4j.dreamjob.model.Candidate;
 import ru.job4j.dreamjob.model.City;
-import ru.job4j.dreamjob.model.Post;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,7 +20,7 @@ class CandidateDBStoreTest {
 
     @AfterEach
     public void wipeTable() throws SQLException {
-        BasicDataSource pool = new Main().loadPool();
+        BasicDataSource pool = new JdbcConfiguration().loadPool();
         try (Connection connection = pool.getConnection();
              PreparedStatement statement = connection.prepareStatement("delete from candidate")) {
             statement.execute();
@@ -30,7 +29,7 @@ class CandidateDBStoreTest {
 
     @Test
     public void whenFindAll() {
-        CandidateDBStore store = new CandidateDBStore(new Main().loadPool());
+        CandidateDBStore store = new CandidateDBStore(new JdbcConfiguration().loadPool());
         Candidate candidate1 = new Candidate(1, "Junior Java Job", LocalDateTime.now(),
                 "little interesting", new City());
         Candidate candidate2 = new Candidate(2, "Middle Java Job", LocalDateTime.now(),
@@ -45,7 +44,7 @@ class CandidateDBStoreTest {
 
     @Test
     public void whenCreateCandidate() {
-        CandidateDBStore store = new CandidateDBStore(new Main().loadPool());
+        CandidateDBStore store = new CandidateDBStore(new JdbcConfiguration().loadPool());
         Candidate candidate = new Candidate(1, "Junior Java Job", LocalDateTime.now(),
                 "little interesting", new City());
         store.add(candidate);
@@ -55,7 +54,7 @@ class CandidateDBStoreTest {
 
     @Test
     public void whenUpdate() {
-        CandidateDBStore store = new CandidateDBStore(new Main().loadPool());
+        CandidateDBStore store = new CandidateDBStore(new JdbcConfiguration().loadPool());
         Candidate candidate1 = new Candidate(1, "Junior Java Job", LocalDateTime.now(),
                 "little interesting", new City());
         store.add(candidate1);
@@ -68,7 +67,7 @@ class CandidateDBStoreTest {
 
     @Test
     public void whenFindById() {
-        CandidateDBStore store = new CandidateDBStore(new Main().loadPool());
+        CandidateDBStore store = new CandidateDBStore(new JdbcConfiguration().loadPool());
         Candidate candidate1 = new Candidate(1, "Junior Java Job", LocalDateTime.now(),
                 "little interesting", new City());
         Candidate candidate2 = new Candidate(2, "Middle Java Job", LocalDateTime.now(),

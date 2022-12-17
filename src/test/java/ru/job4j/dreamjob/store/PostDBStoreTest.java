@@ -3,7 +3,7 @@ package ru.job4j.dreamjob.store;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import ru.job4j.dreamjob.Main;
+import ru.job4j.dreamjob.config.JdbcConfiguration;
 import ru.job4j.dreamjob.model.City;
 import ru.job4j.dreamjob.model.Post;
 
@@ -19,7 +19,7 @@ class PostDBStoreTest {
 
     @AfterEach
     public void wipeTable() throws SQLException {
-        BasicDataSource pool = new Main().loadPool();
+        BasicDataSource pool = new JdbcConfiguration().loadPool();
         try (Connection connection = pool.getConnection();
              PreparedStatement statement = connection.prepareStatement("delete from post")) {
             statement.execute();
@@ -28,7 +28,7 @@ class PostDBStoreTest {
 
     @Test
      public void findAll() {
-        PostDBStore store = new PostDBStore(new Main().loadPool());
+        PostDBStore store = new PostDBStore(new JdbcConfiguration().loadPool());
         Post post1 = new Post(1, "Junior Java Job", "little interesting", true,
                 new City());
         Post post2 = new Post(2, "Middle Java Job", "interesting", true,
@@ -43,7 +43,7 @@ class PostDBStoreTest {
 
     @Test
     public void whenCreatePost() {
-        PostDBStore store = new PostDBStore(new Main().loadPool());
+        PostDBStore store = new PostDBStore(new JdbcConfiguration().loadPool());
         Post post = new Post(1, "Junior Java Job", "little interesting", true, new City());
         store.add(post);
         Post postInDb = store.findById(post.getId());
@@ -52,7 +52,7 @@ class PostDBStoreTest {
 
     @Test
     public void update() {
-        PostDBStore store = new PostDBStore(new Main().loadPool());
+        PostDBStore store = new PostDBStore(new JdbcConfiguration().loadPool());
         Post post1 = new Post(1, "Junior Java Job", "little interesting", true,
                 new City());
         store.add(post1);
@@ -65,7 +65,7 @@ class PostDBStoreTest {
 
     @Test
     public void findById() {
-        PostDBStore store = new PostDBStore(new Main().loadPool());
+        PostDBStore store = new PostDBStore(new JdbcConfiguration().loadPool());
         Post post1 = new Post(1, "Junior Java Job", "little interesting", true,
                 new City());
         Post post2 = new Post(2, "Middle Java Job", "interesting", true,
