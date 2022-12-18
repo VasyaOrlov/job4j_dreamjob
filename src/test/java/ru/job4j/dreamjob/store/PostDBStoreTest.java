@@ -6,13 +6,11 @@ import org.junit.jupiter.api.Test;
 import ru.job4j.dreamjob.config.JdbcConfiguration;
 import ru.job4j.dreamjob.model.City;
 import ru.job4j.dreamjob.model.Post;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
-
 import static org.assertj.core.api.Assertions.*;
 
 class PostDBStoreTest {

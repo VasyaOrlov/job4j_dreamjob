@@ -6,14 +6,12 @@ import org.junit.jupiter.api.Test;
 import ru.job4j.dreamjob.config.JdbcConfiguration;
 import ru.job4j.dreamjob.model.Candidate;
 import ru.job4j.dreamjob.model.City;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
-
 import static org.assertj.core.api.Assertions.*;
 
 class CandidateDBStoreTest {
