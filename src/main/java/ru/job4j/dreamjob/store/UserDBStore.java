@@ -64,6 +64,6 @@ public class UserDBStore {
         } catch (SQLException e) {
             LOG.error("Failed connection when looking for id:", e);
         }
-        return Optional.of(new User());
+        return Optional.empty();
     }
 }
