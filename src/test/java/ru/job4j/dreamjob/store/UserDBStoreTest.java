@@ -28,7 +28,7 @@ class UserDBStoreTest {
         UserDBStore store = new UserDBStore(new JdbcConfiguration().loadPool());
         User user = new User(1, "email", "password");
         store.add(user);
-        assertThat(user.getPassword()).isEqualTo(store.findById(user.getId()).getPassword());
+        assertThat(user.getPassword()).isEqualTo(store.findById(user.getId()).orElse(new User()).getPassword());
     }
 
     @Test
@@ -38,7 +38,7 @@ class UserDBStoreTest {
         User user2 = new User(1, "email", "password2");
         store.add(user);
         store.add(user2);
-        assertThat(user.getPassword()).isEqualTo(store.findById(user.getId()).getPassword());
+        assertThat(user.getPassword()).isEqualTo(store.findById(user.getId()).orElse(new User()).getPassword());
     }
 
     @Test
@@ -46,6 +46,6 @@ class UserDBStoreTest {
         UserDBStore store = new UserDBStore(new JdbcConfiguration().loadPool());
         User user = new User(1, "email", "password");
         store.add(user);
-        assertThat(user).isEqualTo(store.findById(user.getId()));
+        assertThat(user).isEqualTo(store.findById(user.getId()).orElse(new User()));
     }
 }

@@ -29,6 +29,7 @@ public class UserDBStore {
     }
 
     public Optional<User> add(User user) {
+        Optional<User> rsl = Optional.empty();
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement(ADD_USER, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, user.getEmail());
@@ -37,32 +38,32 @@ public class UserDBStore {
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
                     user.setId(rs.getInt(1));
+                    rsl = Optional.of(user);
                 }
             }
         } catch (SQLException e) {
             LOG.error("Failed connection when add:", e);
-            return Optional.empty();
         }
-        return Optional.of(user);
+        return rsl;
     }
 
-    public User findById(int id) {
+    public Optional<User> findById(int id) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement(FIND_BY_ID)
         ) {
             ps.setInt(1, id);
             try (ResultSet it = ps.executeQuery()) {
                 if (it.next()) {
-                    return new User(
+                    return Optional.of(new User(
                             it.getInt("id"),
                             it.getString("email"),
                             it.getString("password")
-                    );
+                    ));
                 }
             }
         } catch (SQLException e) {
             LOG.error("Failed connection when looking for id:", e);
         }
-        return new User();
+        return Optional.of(new User());
     }
 }
