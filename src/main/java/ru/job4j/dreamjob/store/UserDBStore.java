@@ -5,7 +5,6 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import ru.job4j.dreamjob.model.Post;
 import ru.job4j.dreamjob.model.User;
 
 import java.sql.Connection;
@@ -21,6 +20,7 @@ public class UserDBStore {
     private static final Logger LOG = LoggerFactory.getLogger(UserDBStore.class);
     private static final String ADD_USER = "INSERT INTO users (email, password) VALUES (?, ?)";
     private static final String FIND_BY_ID = "SELECT * FROM users WHERE id = ?";
+    private static final String FIND_BY_EMAIL_PASSWORD = "SELECT * FROM users WHERE email = ? and password = ?";
 
     private final BasicDataSource pool;
 
@@ -63,6 +63,26 @@ public class UserDBStore {
             }
         } catch (SQLException e) {
             LOG.error("Failed connection when looking for id:", e);
+        }
+        return Optional.empty();
+    }
+
+    public Optional<User> findUserByEmailAndPassword(String email, String password) {
+        try (Connection cn = pool.getConnection();
+        PreparedStatement ps = cn.prepareStatement(FIND_BY_EMAIL_PASSWORD)) {
+            ps.setString(1, email);
+            ps.setString(2, password);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return Optional.of(new User(
+                            rs.getInt("id"),
+                            rs.getString("email"),
+                            rs.getString("password")
+                    ));
+                }
+            }
+        } catch (SQLException e) {
+            LOG.error("Failed connection when find:", e);
         }
         return Optional.empty();
     }
