@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.dreamjob.model.User;
 import ru.job4j.dreamjob.service.UserService;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
 @Controller
@@ -23,18 +25,36 @@ public class UserController {
     }
 
     @GetMapping("/fromAddUser")
-    public String addUser(Model model) {
-        model.addAttribute("user", new User(0, "", ""));
+    public String addUser(Model model, HttpSession httpSession) {
+        model.addAttribute("user", new User(0, "", "", ""));
+        User user = (User) httpSession.getAttribute("user");
+        if (user == null) {
+            user = new User();
+            user.setName("Гость");
+        }
+        model.addAttribute("user", user);
         return "addUser";
     }
 
     @GetMapping("/success")
-    public String successRegistration() {
+    public String successRegistration(Model model, HttpSession httpSession) {
+        User user = (User) httpSession.getAttribute("user");
+        if (user == null) {
+            user = new User();
+            user.setName("Гость");
+        }
+        model.addAttribute("user", user);
         return "success";
     }
 
     @GetMapping("/fail")
-    public String failRegistration() {
+    public String failRegistration(Model model, HttpSession httpSession) {
+        User user = (User) httpSession.getAttribute("user");
+        if (user == null) {
+            user = new User();
+            user.setName("Гость");
+        }
+        model.addAttribute("user", user);
         return "fail";
     }
 
@@ -55,13 +75,20 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String login(@ModelAttribute User user) {
+    public String login(@ModelAttribute User user, HttpSession session) {
         Optional<User> userDb = userService.findUserByEmailAndPassword(
                 user.getEmail(), user.getPassword()
         );
         if (userDb.isEmpty()) {
             return "redirect:/loginPage?fail=true";
         }
+        session.setAttribute("user", userDb.get());
+        return "redirect:/index";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
         return "redirect:/index";
     }
 }

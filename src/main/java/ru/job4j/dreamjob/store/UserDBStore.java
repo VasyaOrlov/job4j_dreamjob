@@ -18,7 +18,7 @@ import java.util.Optional;
 public class UserDBStore {
 
     private static final Logger LOG = LoggerFactory.getLogger(UserDBStore.class);
-    private static final String ADD_USER = "INSERT INTO users (email, password) VALUES (?, ?)";
+    private static final String ADD_USER = "INSERT INTO users (email, password, name) VALUES (?, ?, ?)";
     private static final String FIND_BY_ID = "SELECT * FROM users WHERE id = ?";
     private static final String FIND_BY_EMAIL_PASSWORD = "SELECT * FROM users WHERE email = ? and password = ?";
 
@@ -34,6 +34,7 @@ public class UserDBStore {
              PreparedStatement ps = cn.prepareStatement(ADD_USER, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, user.getEmail());
             ps.setString(2, user.getPassword());
+            ps.setString(3, user.getName());
             ps.execute();
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
@@ -57,7 +58,8 @@ public class UserDBStore {
                     return Optional.of(new User(
                             it.getInt("id"),
                             it.getString("email"),
-                            it.getString("password")
+                            it.getString("password"),
+                            it.getString("name")
                     ));
                 }
             }
@@ -77,7 +79,8 @@ public class UserDBStore {
                     return Optional.of(new User(
                             rs.getInt("id"),
                             rs.getString("email"),
-                            rs.getString("password")
+                            rs.getString("password"),
+                            rs.getString("name")
                     ));
                 }
             }
