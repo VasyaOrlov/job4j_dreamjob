@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.job4j.dreamjob.model.City;
 import ru.job4j.dreamjob.model.Post;
-import ru.job4j.dreamjob.model.User;
 import ru.job4j.dreamjob.service.CityService;
 import ru.job4j.dreamjob.service.PostService;
-
 import javax.servlet.http.HttpSession;
+
+import static ru.job4j.dreamjob.util.GetUser.getUsers;
 
 @Controller
 @ThreadSafe
@@ -30,12 +30,7 @@ public class PostController {
     @GetMapping("/posts")
     public String posts(Model model, HttpSession httpSession) {
         model.addAttribute("posts", postService.findAll());
-        User user = (User) httpSession.getAttribute("user");
-        if (user == null) {
-            user = new User();
-            user.setName("Гость");
-        }
-        model.addAttribute("user", user);
+        getUsers(model, httpSession);
         return "posts";
     }
 
@@ -44,12 +39,7 @@ public class PostController {
         model.addAttribute("post", new Post(0, "Заполните название",
                 "Заполните описание", true, new City()));
         model.addAttribute("cities", cityService.getAllCities());
-        User user = (User) httpSession.getAttribute("user");
-        if (user == null) {
-            user = new User();
-            user.setName("Гость");
-        }
-        model.addAttribute("user", user);
+        getUsers(model, httpSession);
         return "addPost";
     }
 
@@ -64,12 +54,7 @@ public class PostController {
     public String formUpdatePost(Model model, @PathVariable("postId") int id, HttpSession httpSession) {
         model.addAttribute("post", postService.findById(id));
         model.addAttribute("cities", cityService.getAllCities());
-        User user = (User) httpSession.getAttribute("user");
-        if (user == null) {
-            user = new User();
-            user.setName("Гость");
-        }
-        model.addAttribute("user", user);
+        getUsers(model, httpSession);
         return "updatePost";
     }
 

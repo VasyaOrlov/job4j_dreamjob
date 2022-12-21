@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.dreamjob.model.User;
 import ru.job4j.dreamjob.service.UserService;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
+
+import static ru.job4j.dreamjob.util.GetUser.getUsers;
 
 @Controller
 @ThreadSafe
@@ -27,34 +27,19 @@ public class UserController {
     @GetMapping("/fromAddUser")
     public String addUser(Model model, HttpSession httpSession) {
         model.addAttribute("user", new User(0, "", "", ""));
-        User user = (User) httpSession.getAttribute("user");
-        if (user == null) {
-            user = new User();
-            user.setName("Гость");
-        }
-        model.addAttribute("user", user);
+        getUsers(model, httpSession);
         return "addUser";
     }
 
     @GetMapping("/success")
     public String successRegistration(Model model, HttpSession httpSession) {
-        User user = (User) httpSession.getAttribute("user");
-        if (user == null) {
-            user = new User();
-            user.setName("Гость");
-        }
-        model.addAttribute("user", user);
+        getUsers(model, httpSession);
         return "success";
     }
 
     @GetMapping("/fail")
     public String failRegistration(Model model, HttpSession httpSession) {
-        User user = (User) httpSession.getAttribute("user");
-        if (user == null) {
-            user = new User();
-            user.setName("Гость");
-        }
-        model.addAttribute("user", user);
+        getUsers(model, httpSession);
         return "fail";
     }
 
