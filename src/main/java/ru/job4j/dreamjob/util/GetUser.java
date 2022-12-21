@@ -5,7 +5,10 @@ import ru.job4j.dreamjob.model.User;
 
 import javax.servlet.http.HttpSession;
 
-public class GetUser {
+public final class GetUser {
+
+    private GetUser() {
+    }
 
     public static void getUsers(Model model, HttpSession httpSession) {
         User user = (User) httpSession.getAttribute("user");
